@@ -1,6 +1,6 @@
 <?php
 // Connect to the MySQL server using mysqli
-$link = mysqli_connect("localhost", "root", "");
+$link = mysqli_connect("localhost", "root", "@Aiqal13102002");
 
 if (!$link) {
     die('Error connecting to the server: ' . mysqli_connect_error());

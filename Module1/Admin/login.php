@@ -1,12 +1,50 @@
+<?php
+session_start();
 
+$link = mysqli_connect("localhost", "root", "@Aiqal13102002", "web_eng");
+
+if (!$link) {
+    die('Error connecting to the server: ' . mysqli_connect_error());
+}
+
+$message = "";
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $sql = "SELECT * FROM administrator WHERE A_username = ? AND A_password = ?";
+    $stmt = $link->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+
+        // Correct user fetched
+        $user = $result->fetch_assoc();
+
+        // Store session variables
+        $_SESSION["A_adminID"] = $user['A_adminID'];
+        $_SESSION["user_username"] = $user['A_username'];
+        $_SESSION["A_name"] = $user['A_name'];
+        $_SESSION["A_password"] = $user['A_password'];
+
+        header("Location: Dashbourd.php?login=success");
+        exit();
+
+    } else {
+        $message = "Invalid username or password.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>FK Park Login</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
+    <title>Admin FKPark</title>
     <style media="screen">
         *,
         *:before,
@@ -137,74 +175,13 @@
         }
     </style>
 </head>
-<body>
 
-<?php
-session_start();
-
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
-
-mysqli_select_db($link, "web_eng");
-
-$message = "";
-
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
-    // Hash the password - assuming you've already hashed passwords in the database
-    // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    $sql = "SELECT * FROM administrator WHERE A_username = ? AND A_password = ?";
-    $stmt = $link->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
-
-    // Execute the query
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Check if user exists
-    if ($result->num_rows == 1) {
-        // Authentication successful, fetch user data
-        $user = $result->fetch_assoc();
-
-        // Create new session ID
-        $newSessionId = session_create_id();
-        $sessionId = $newSessionId . "_" . $user['A_username']; // Using STU_studentID for session ID
-        session_id($sessionId);
-        
-        $_SESSION["A_adminID"] = htmlspecialchars($user['A_adminID']);
-        $_SESSION["user_username"] = htmlspecialchars($user['A_username']);
-        $_SESSION["A_name"] = htmlspecialchars($user['A_name']); // Added STU_name to session
-        $_SESSION["student_password"] = htmlspecialchars($user[' A_password']); // Adjusted to STU_password
-        $_SESSION['last_regeneration'] = time();
-        header("Location: Dashbourd.php?login=success");
-        exit();
-    } else {
-        $message = "Invalid username or password.";
-        header("Location: login.php?message=" . urlencode($message));
-        exit();
-    }
-}
-?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>FK Park Login</title>
-    <!-- Add your CSS links and styles here -->
-</head>
 <body>
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
+
 <form method="post">
     <h3>Admin FKPark</h3>
 
@@ -213,12 +190,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
     <label for="password">Password</label>
     <input type="password" placeholder="Password" id="password" name="password" required>
-    
-    <div class="forgot-password">
-        <a href="#">Forgot Password?</a>
-    </div>
-    <button type="submit" name="submit">Log In</button>
+
+    <?php if (!empty($message)) { ?>
+        <p class="error-message"><?= $message ?></p>
+    <?php } ?>
+
+    <button type="submit">Log In</button>
 </form>
 </body>
 </html>
-
