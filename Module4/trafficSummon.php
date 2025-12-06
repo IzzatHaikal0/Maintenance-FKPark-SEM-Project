@@ -1,6 +1,9 @@
 <?php
 include('../Layout/staff_layout.php');
 
+// Set XAMPP MySQL socket path
+ini_set('mysqli.default_socket', '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock');
+
 $servername = "localhost";
 $username = "root"; // Replace with your MySQL username
 $password = ""; // Replace with your MySQL password
