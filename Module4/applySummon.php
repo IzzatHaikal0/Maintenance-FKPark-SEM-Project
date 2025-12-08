@@ -6,6 +6,9 @@ ob_start();
 
 include('../Layout/staff_layout.php');
 
+// Set XAMPP MySQL socket path
+ini_set('mysqli.default_socket', '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock');
+
 $link = mysqli_connect("localhost", "root", "", "web_eng");
 
 if (!$link) {
