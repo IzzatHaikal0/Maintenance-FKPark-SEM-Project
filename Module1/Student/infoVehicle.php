@@ -2,12 +2,8 @@
 session_start();
 require('../../Layout/student_layout.php');
 
-// Initialize database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+require('../../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
 
 // Perform inner join query to get student and vehicle details
 $query = "SELECT student.STU_name, student.STU_email, vehicle.V_plateNum, vehicle.V_vehicleType, vehicle.V_status, vehicle.V_brand, vehicle.V_colour

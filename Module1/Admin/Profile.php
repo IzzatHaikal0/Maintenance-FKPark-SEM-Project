@@ -2,14 +2,8 @@
 // Include header file
 session_start();
 require('../../Layout/admin_layout.php');
+require('../../db_config.php');
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
-
-mysqli_select_db($link, "web_eng");
 
 $adminID = $_SESSION['A_adminID']; 
 

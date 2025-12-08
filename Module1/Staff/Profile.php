@@ -4,11 +4,8 @@
 session_start();
 require('../../Layout/staff_layout.php');
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+require('../../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
 
 $staffID = $_SESSION['S_staffID'];
 

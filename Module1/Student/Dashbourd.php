@@ -1,13 +1,7 @@
 <?php
 session_start();
 require('../../Layout/student_layout.php');
-
-// Initialize database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+require('../../db_config.php'); // <-- use shared DB config
 
 // Query to count the total number of vehicles registered
 $query_total_vehicles = "SELECT COUNT(*) AS total_vehicles FROM vehicle";
@@ -20,7 +14,6 @@ if ($result_total_vehicles) {
     $total_vehicles = 0;
 }
 
-// Query to count the total number of cars and motorcycles
 $query_car_count = "SELECT COUNT(*) AS car_count FROM vehicle WHERE V_vehicleType = 'Car'";
 $result_car_count = mysqli_query($link, $query_car_count);
 
@@ -54,13 +47,13 @@ if ($result_brand_counts) {
         $brandCounts[] = $row_brand_counts['brand_count'];
     }
 } else {
-    // Default example data if no data found
     $brands = ['Perodua', 'Honda', 'Toyota', 'Wolkswagen'];
     $brandCounts = [10, 15, 8, 12];
 }
 
 mysqli_close($link);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

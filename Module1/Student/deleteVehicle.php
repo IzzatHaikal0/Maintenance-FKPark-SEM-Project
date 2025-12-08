@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+require('../../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $V_plateNum = $_POST["V_plateNum"];

@@ -1,10 +1,7 @@
 <?php
 include('../../Layout/admin_layout.php');
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+require('../../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
 
 // Fetch parking spaces status
 $fixed_locations = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3'];

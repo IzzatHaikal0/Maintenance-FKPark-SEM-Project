@@ -4,12 +4,8 @@ ob_start();
 session_start();
 require('../../Layout/admin_layout.php');
 
-// Initialize database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+require('../../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
 
 // Fetch administrator details
 $adminID = $_SESSION['A_adminID'];

@@ -2,14 +2,8 @@
 session_start();
 require('../../Layout/admin_layout.php');
 
-$link = mysqli_connect("localhost", "root", "@Aiqal13102002", "web_eng");
+require('../../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
-
-// Include database connection file
-mysqli_select_db($link, "web_eng");
 
 // Query to count the total number of users registered
 $query_total_users = "SELECT COUNT(*) AS total_users FROM student";
