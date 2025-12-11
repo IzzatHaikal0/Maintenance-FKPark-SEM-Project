@@ -2,11 +2,8 @@
 session_start();
 require('../../Layout/admin_layout.php');
 
-$link = mysqli_connect("localhost", "root", "@Aiqal13102002", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 // Include database connection file
 mysqli_select_db($link, "web_eng");

@@ -1,11 +1,6 @@
 <?php
-// Establish database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-// Check if connection is successful
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../db_config.php');
 
 // Fetch parameters from $_GET
 $vehicleID = isset($_GET['V_vehicleID']) ? $_GET['V_vehicleID'] : '';

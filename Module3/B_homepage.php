@@ -2,11 +2,8 @@
 session_start();
 include('../Layout/student_layout.php');
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../db_config.php');
 
 // Fetch parking spaces
 $query = "SELECT * FROM parkingSpace ORDER BY P_location, P_parkingSpaceID";

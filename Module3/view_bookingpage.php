@@ -6,11 +6,8 @@ include('../Layout/student_layout.php');
 if (isset($_GET['bookingID'])) {
     $bookingID = $_GET['bookingID'];
 
-    // Connect to the database
-    $link = mysqli_connect("localhost", "root", "", "web_eng");
-    if (!$link) {
-        die('Error connecting to the server: ' . mysqli_connect_error());
-    }
+    // Database connection using centralized config
+    require('../db_config.php');
 
     // Fetch booking details from the database
     $sql = "SELECT b.B_startTime, b.P_parkingSpaceID, p.P_location, p.P_status, p.P_parkingType, v.V_plateNum

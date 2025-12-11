@@ -3,11 +3,8 @@ session_start();
 include('../../Layout/admin_layout.php');
 include('../../phpqrcode/qrlib.php');
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 mysqli_select_db($link, "web_eng");
 

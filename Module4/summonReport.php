@@ -2,15 +2,8 @@
 session_start();
 require('../Layout/staff_layout.php');
 
-// Set XAMPP MySQL socket path
-ini_set('mysqli.default_socket', '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock');
-
-// Database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../db_config.php');
 
 // Retrieve total summon count
 $sql_total_summons = "SELECT COUNT(*) AS total_summons FROM trafficSummon";

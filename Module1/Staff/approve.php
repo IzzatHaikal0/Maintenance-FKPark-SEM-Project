@@ -3,11 +3,8 @@ session_start();
 require('../../Layout/staff_layout.php');
 
 // Initialize database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 // Check if form is submitted and the approve button is clicked
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approve'])) {

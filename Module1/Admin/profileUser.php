@@ -3,11 +3,8 @@
 require('../../Layout/admin_layout.php');
 
 // Include database connection file
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 // Handle delete request
 if (isset($_GET['del'])) {

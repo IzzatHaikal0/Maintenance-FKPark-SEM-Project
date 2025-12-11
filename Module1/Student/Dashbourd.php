@@ -3,11 +3,8 @@ session_start();
 require('../../Layout/student_layout.php');
 
 // Initialize database connection
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 // Query to count the total number of vehicles registered
 $query_total_vehicles = "SELECT COUNT(*) AS total_vehicles FROM vehicle";
