@@ -4,8 +4,8 @@
 session_start();
 require('../../Layout/student_layout.php');
 
+// Database connection using centralized config
 require('../../db_config.php');
-
 
 
 $studentID = $_SESSION['STU_studentID']; 

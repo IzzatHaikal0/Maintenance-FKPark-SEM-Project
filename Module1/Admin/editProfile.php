@@ -4,8 +4,9 @@ ob_start();
 session_start();
 require('../../Layout/admin_layout.php');
 
+// Initialize database connection
+// Database connection using centralized config
 require('../../db_config.php');
-
 
 // Fetch administrator details
 $adminID = $_SESSION['A_adminID'];

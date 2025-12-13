@@ -2,8 +2,9 @@
 session_start();
 require('../../Layout/staff_layout.php');
 
+// Initialize database connection
+// Database connection using centralized config
 require('../../db_config.php');
-
 
 // Get the current date
 $currentDate = date('Y-m-d');

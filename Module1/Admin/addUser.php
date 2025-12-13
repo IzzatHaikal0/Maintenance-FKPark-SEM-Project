@@ -1,8 +1,12 @@
 <?php
 // Include header file
 require('../../Layout/admin_layout.php');
+
+// Database connection using centralized config
 require('../../db_config.php');
 
+// Include database connection file
+mysqli_select_db($link, "web_eng");
 
 // Check if form is submitted and the add_user button is clicked
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {

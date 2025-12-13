@@ -1,9 +1,6 @@
 <?php
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die(json_encode(['success' => false, 'message' => 'Error connecting to the server: ' . mysqli_connect_error()]));
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 $location = $_POST['location'];
 $status = $_POST['status'];

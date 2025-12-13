@@ -1,8 +1,8 @@
 <?php
 session_start();
 
+// Database connection using centralized config
 require('../../db_config.php');
-
 
 // Get student ID from session
 $studentID = $_SESSION['STU_studentID']; 

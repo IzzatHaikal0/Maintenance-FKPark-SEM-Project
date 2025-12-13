@@ -1,7 +1,10 @@
 <?php
 session_start();
 require('../../Layout/student_layout.php');
-require('../../db_config.php'); // <-- use shared DB config
+
+// Initialize database connection
+// Database connection using centralized config
+require('../../db_config.php');
 
 // Query to count the total number of vehicles registered
 $query_total_vehicles = "SELECT COUNT(*) AS total_vehicles FROM vehicle";

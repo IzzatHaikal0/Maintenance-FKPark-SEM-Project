@@ -1,19 +1,8 @@
 <?php
-// Set XAMPP MySQL socket path
-ini_set('mysqli.default_socket', '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock');
-
-$servername = "localhost";
-$username = "root"; // Replace with your MySQL username
-$password = ""; // Replace with your MySQL password
-$dbname = "web_eng";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Database connection using centralized config
+require('../db_config.php');
+// Use procedural style for consistency, or convert to OOP if needed
+$conn = $link;
 
 if (isset($_GET['id'])) {
     $summonID = $_GET['id'];

@@ -1,10 +1,7 @@
 <?php
 include('../../Layout/admin_layout.php');
-$link = new mysqli('localhost', 'root', '', 'web_eng');
-
-if ($link->connect_error) {
-    die('Error connecting to the server: ' . $link->connect_error);
-}
+// Database connection using centralized config
+require('../../db_config.php');
 
 // Fetch total parking spaces
 $totalSpacesResult = $link->query("SELECT COUNT(*) AS total_spaces FROM parkingSpace");

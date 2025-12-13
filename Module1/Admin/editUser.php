@@ -2,8 +2,9 @@
 // Include header file
 require('../../Layout/admin_layout.php');
 
+// Include database connection file
+// Database connection using centralized config
 require('../../db_config.php');
-
 
 // Initialize variables
 $updateMessage = '';

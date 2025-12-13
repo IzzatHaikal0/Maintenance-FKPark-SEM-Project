@@ -141,8 +141,9 @@
 
 <?php
 session_start();
-require('../../db_config.php');
 
+// Database connection using centralized config
+require('../../db_config.php');
 
 $message = "";
 

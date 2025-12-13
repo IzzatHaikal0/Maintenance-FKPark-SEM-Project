@@ -2,6 +2,7 @@
 session_start();
 require('../Layout/staff_layout.php');
 
+// Database connection using centralized config
 require('../db_config.php');
 
 // Retrieve total summon count
