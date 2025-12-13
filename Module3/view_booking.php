@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+$link = mysqli_connect("localhost", "root", "@Aiqal13102002", "web_eng");
 
 if (!$link) {
     die('Error connecting to the server: ' . mysqli_connect_error());
@@ -145,7 +145,7 @@ include('../Layout/student_layout.php');
                     <td><img src="../QRImage/booking<?php echo htmlspecialchars($booking['B_bookingID']); ?>.png" alt="QR Code" width="100"></td>
                     <td>
                     <a href="module3/edit_booking.php?id=<?php echo htmlspecialchars($booking['B_bookingID']); ?>">Edit</a>
-                        <a href="module3/view_booking.php?action=delete&id=<?php echo htmlspecialchars($booking['B_bookingID']); ?>" onclick="return confirm('Are you sure you want to delete this booking?');">Delete</a>
+                        <a href="/Mini-Project-Web-Eng/module3/view_booking.php?action=delete&id=<?php echo htmlspecialchars($booking['B_bookingID']); ?>" onclick="return confirm('Are you sure you want to delete this booking?');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

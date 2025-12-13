@@ -4,16 +4,8 @@ session_start();
 include('../Layout/student_layout.php');
 
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
+require('../db_config.php');
 
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
-
-// Check if student is logged in
-if (!isset($_SESSION['STU_studentID'])) {
-    die('Student not logged in');
-}
 
 // Fetch student's vehicles using student ID
 $studentID = $_SESSION['STU_studentID'];
@@ -211,7 +203,7 @@ mysqli_close($link);
     <p>Status: <?php echo htmlspecialchars($status); ?></p>
     <p>Type: <?php echo htmlspecialchars($parkingType); ?></p>
    
-    <form method="POST" action="module3/make_booking.php">
+    <form method="POST" action="/Mini-Project-Web-Eng/module3/make_booking.php">
         <input type="hidden" name="parkingSpaceID" value="<?php echo htmlspecialchars($parkingSpaceID); ?>">
         <input type="hidden" name="location" value="<?php echo htmlspecialchars($location); ?>">
         <input type="hidden" name="status" value="<?php echo htmlspecialchars($status); ?>">

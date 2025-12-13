@@ -1,6 +1,6 @@
 <?php
 include('../../db.php'); // Make sure this path is correct
-
+require('../../db_config.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['parkingSpaceID'], $_POST['location'], $_POST['status'], $_POST['type'])) {
     $parkingSpaceID = mysqli_real_escape_string($link, $_POST['parkingSpaceID']);
     $location = mysqli_real_escape_string($link, $_POST['location']);

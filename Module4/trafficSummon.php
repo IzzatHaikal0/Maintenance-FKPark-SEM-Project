@@ -6,7 +6,7 @@ ini_set('mysqli.default_socket', '/Applications/XAMPP/xamppfiles/var/mysql/mysql
 
 $servername = "localhost";
 $username = "root"; // Replace with your MySQL username
-$password = ""; // Replace with your MySQL password
+$password = "@Aiqal13102002"; // Replace with your MySQL password
 $dbname = "web_eng";
 
 // Create connection

@@ -4,16 +4,7 @@ session_start();
 // Start output buffering
 ob_start();
 
-include('../Layout/staff_layout.php');
-
-// Set XAMPP MySQL socket path
-ini_set('mysqli.default_socket', '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock');
-
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
+require('../db_config.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['apply-summon'])) {
     $plate_number = $_POST['plate_number'];
@@ -186,7 +177,7 @@ ob_end_flush();
 <body>
     <div class="content-container">
         <h2>Add Summon</h2>
-        <form action="Module4/applySummon.php" method="post">
+        <form action="/Mini-Project-Web-Eng/Module4/applySummon.php" method="post">
             <div class="form-group">
                 <label for="plate_number">Plate Number:</label>
                 <input type="text" id="plate_number" name="plate_number" required>

@@ -214,7 +214,7 @@ require('../../Layout/student_layout.php');
     <h2>EDIT PROFILE</h2>
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="Module1/Student/editprofile.php">
+            <form method="POST" action="/Mini-Project-Web-Eng/Module1/Student/editprofile.php">
                 <table>
                     <tbody>
                         <tr>

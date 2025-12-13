@@ -2,12 +2,7 @@
 session_start();
 include('../Layout/student_layout.php');
 
-$link = mysqli_connect("localhost", "root", "", "web_eng");
-
-if (!$link) {
-    die('Error connecting to the server: ' . mysqli_connect_error());
-}
-
+require('../db_config.php');
 // Fetch parking spaces
 $query = "SELECT * FROM parkingSpace ORDER BY P_location, P_parkingSpaceID";
 $result = mysqli_query($link, $query);
@@ -60,7 +55,7 @@ mysqli_close($link);
                     <?php foreach ($spaces as $space): ?>
                         <div class="card <?php echo strtolower($space['P_status']); ?>"
                              <?php if (strtolower($space['P_status']) != 'closed'): ?>
-                                 onclick="window.location.href='Module3/make_booking.php?id=<?php echo $space['P_parkingSpaceID']; ?>&location=<?php echo urlencode($location); ?>&status=<?php echo urlencode($space['P_status']); ?>&type=<?php echo urlencode($space['P_parkingType']); ?>'"
+                                 onclick="window.location.href='/Mini-Project-Web-Eng/Module3/make_booking.php?id=<?php echo $space['P_parkingSpaceID']; ?>&location=<?php echo urlencode($location); ?>&status=<?php echo urlencode($space['P_status']); ?>&type=<?php echo urlencode($space['P_parkingType']); ?>'"
                              <?php endif; ?>
                         >
                             <p>ID: <?php echo htmlspecialchars($space['P_parkingSpaceID']); ?></p>

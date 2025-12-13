@@ -225,27 +225,27 @@
     </header>
     <div class="container">
         <div class="sidenav">
-            <a href="Module4/summonReport.php">Dashboard</a>
+            <a href="/Mini-Project-Web-Eng/Module4/summonReport.php">Dashboard</a>
             <button class="dropdown-btn">Vehicle 
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="Module1/Staff/approve.php">Approve</a>
-                <a href="Module1/Staff/infoVehicle.php">Information</a>
+                <a href="/Mini-Project-Web-Eng/Module1/Staff/approve.php">Approve</a>
+                <a href="/Mini-Project-Web-Eng/Module1/Staff/infoVehicle.php">Information</a>
             </div>
             <button class="dropdown-btn">Booking
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="Module3/B_homepage.php">View Parking Spaces</a>
-                <a href="Module3/view_booking.php">View Booking List</a>
+                <a href="/Mini-Project-Web-Eng/Module3/B_homepage.php">View Parking Spaces</a>
+                <a href="/Mini-Project-Web-Eng/Module3/view_booking.php">View Booking List</a>
             </div> 
             <button class="dropdown-btn">Summon 
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="Module4/applySummon.php">Apply Summon</a>
-                <a href="Module4/trafficSummon.php">Manage Summon</a>
+                <a href="/Mini-Project-Web-Eng/Module4/applySummon.php">Apply Summon</a>
+                <a href="/Mini-Project-Web-Eng/Module4/trafficSummon.php">Manage Summon</a>
             </div> 
           </div>
         <script>

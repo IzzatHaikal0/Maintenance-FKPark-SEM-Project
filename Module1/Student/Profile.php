@@ -245,7 +245,7 @@ $student = $result->fetch_assoc();
                     </tr>
                     <tr>
                         <td>
-                        <form action="Module1/Student/editprofile.php">
+                        <form action="/Mini-Project-Web-Eng/Module1/Student/editprofile.php">
                             <button type="submit" class="btn btn-edit">Edit</button>
                             </form>
                         </td>
