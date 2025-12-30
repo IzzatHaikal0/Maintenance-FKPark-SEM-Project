@@ -53,7 +53,7 @@
         }
 
         form {
-            height: 520px;
+            height: 600px;
             width: 400px;
             background-color: rgba(255, 255, 255, 0.9);
             position: absolute;
@@ -203,17 +203,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 <form method="post">
     <h3>Student FKPark</h3>
 
+    <!-- LOGIN TIP MESSAGE -->
+    <div style="
+        background:#e9f5ff;
+        color:#004085;
+        padding:12px;
+        border-radius:5px;
+        margin-bottom:20px;
+        border:1px solid #b8daff;
+        font-size:14px;
+    ">
+        <strong>Login Tips:</strong><br>
+        • <b>Username</b>: Your Student ID</b><br>
+        • <b>Initial Password</b>: <b>FK123</b> 
+    </div>
+
     <label for="username">Username</label>
-    <input type="text" placeholder="Username" id="username" name="username" required>
+    <input type="text" placeholder="Student ID" id="username" name="username" required>
 
     <label for="password">Password</label>
     <input type="password" placeholder="Password" id="password" name="password" required>
-    
+
     <div class="forgot-password">
         <a href="#">Forgot Password?</a>
     </div>
+
     <button type="submit" name="submit">Log In</button>
 </form>
+
 </body>
 </html>
 

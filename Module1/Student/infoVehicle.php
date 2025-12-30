@@ -1,16 +1,32 @@
 <?php
 session_start();
+
 require('../../Layout/student_layout.php');
 
 // Initialize database connection
 // Database connection using centralized config
 require('../../db_config.php');
 
+if (!isset($_SESSION['STU_studentID'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$studentID = $_SESSION['STU_studentID'];
+
 // Perform inner join query to get student and vehicle details
-$query = "SELECT student.STU_name, student.STU_email, vehicle.V_plateNum, vehicle.V_vehicleType, vehicle.V_status, vehicle.V_brand, vehicle.V_colour
+$query = "SELECT student.STU_name, student.STU_email,
+                 vehicle.V_plateNum, vehicle.V_vehicleType, vehicle.V_status,
+                 vehicle.V_brand, vehicle.V_colour
           FROM vehicle
-          INNER JOIN student ON vehicle.STU_studentID = student.STU_studentID";
-$result = mysqli_query($link, $query);
+          INNER JOIN student ON vehicle.STU_studentID = student.STU_studentID
+          WHERE student.STU_studentID = ?";
+
+$stmt = $link->prepare($query);
+$stmt->bind_param("i", $studentID);
+$stmt->execute();
+$result = $stmt->get_result();
+
 
 if (!$result) {
     echo "<div class='alert alert-danger' role='alert'>Error performing query: " . mysqli_error($link) . "</div>";

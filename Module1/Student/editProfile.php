@@ -19,15 +19,26 @@ $student = $result->fetch_assoc();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $password = $_POST['password'];
     $phoneNum = $_POST['phoneNum'];
     $address = $_POST['address'];
     $yearStudy = $_POST['yearStudy'];
     $type = $_POST['type'];
 
     // Update student details
-    $update_query = "UPDATE student SET STU_name = ?, STU_email = ?, STU_phoneNum = ?, STU_address = ?, STU_yearStudy = ?, STU_type = ? WHERE STU_studentID = ?";
+    $update_query = "UPDATE student SET STU_name = ?, STU_email = ?, STU_password = ?, STU_phoneNum = ?, STU_address = ?, STU_yearStudy = ?, STU_type = ? WHERE STU_studentID = ?";
     $stmt_update = $link->prepare($update_query);
-    $stmt_update->bind_param("ssssisi", $name, $email, $phoneNum, $address, $yearStudy, $type, $studentID);
+    $stmt_update->bind_param(
+        "sssssisi",
+        $name,
+        $email,
+        $password,
+        $phoneNum,
+        $address,
+        $yearStudy,
+        $type,
+        $studentID
+    );
 
     if ($stmt_update->execute()) {
         // Redirect to Profile.php
@@ -226,6 +237,11 @@ require('../../Layout/student_layout.php');
                             <td><b>Email</b></td>
                             <td>:</td>
                             <td><input type="email" name="email" value="<?php echo $student['STU_email'] ?? ''; ?>"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Password</b></td>
+                            <td>:</td>
+                            <td><input type="text" name="password" value="<?php echo $student['STU_password'] ?? ''; ?>"></td>
                         </tr>
                         <tr>
                             <td><b>Phone Number</b></td>

@@ -138,7 +138,7 @@ if (isset($_GET['del'])) {
 
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>ID</th>
+                                        <th>UserName</th>
                                         <th>Phone Number</th>
                                         <th>Email</th>
                                         <th>Year Of Study</th>

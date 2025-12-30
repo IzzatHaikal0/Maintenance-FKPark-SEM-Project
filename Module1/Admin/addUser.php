@@ -68,7 +68,7 @@ $link->close();
                 <input type="text" required class="form-control" id="studentName" name="studentName">
             </div>
             <div class="form-group mb-3">
-                <label for="studentID">Student ID</label>
+                <label for="studentID">User Name(Student ID)</label>
                 <input type="text" required class="form-control" id="studentID" name="studentID">
             </div>
             <div class="form-group mb-3">

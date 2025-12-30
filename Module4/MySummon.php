@@ -315,7 +315,7 @@ function calculateSummonAmount($demerit_points, $violation_type) {
                 echo "<td><span class='enforcement-type'>" . htmlspecialchars($summon['enforcement_type']) . "</span></td>";
                 echo "<td>";
                 if ($summon['TF_status'] == 'Unpaid') {
-                    echo "<a href='Module4/processPayment.php?summon_id=" . htmlspecialchars($summon['TF_summonID']) . "&amount=" . $summon['amount'] . "' class='btn-pay'>Pay Now</a>";
+                    echo "<a href='/Mini-Project-Web-Eng/Module4/processPayment.php?summon_id=" . htmlspecialchars($summon['TF_summonID']) . "&amount=" . $summon['amount'] . "' class='btn-pay'>Pay Now</a>";
                 } else {
                     echo "<span class='paid-indicator'>Paid</span>";
                 }

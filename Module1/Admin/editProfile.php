@@ -22,13 +22,15 @@ $admin = $result->fetch_assoc();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $password = $_POST['password'];
     $phoneNum = $_POST['phoneNum'];
     $address = $_POST['address'];
 
     // Update administrator details
-    $update_query = "UPDATE administrator SET A_name = ?, A_email = ?, A_phoneNum = ?, A_address = ? WHERE A_adminID = ?";
+    $update_query = "UPDATE administrator SET A_name = ?, A_email = ?, A_password = ?, A_phoneNum = ?, A_address = ? WHERE A_adminID = ?";
     $stmt_update = $link->prepare($update_query);
-    $stmt_update->bind_param("ssssi", $name, $email, $phoneNum, $address, $adminID);
+    $stmt_update->bind_param("sssssi", $name, $email, $password, $phoneNum, $address, $adminID);
+    
 
     if ($stmt_update->execute()) {
         // Redirect to Profile.php
@@ -94,6 +96,11 @@ ob_end_flush();
                             <td><b>Email</b></td>
                             <td>:</td>
                             <td><input type="email" name="email" value="<?php echo $admin['A_email'] ?? ''; ?>"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Password</b></td>
+                            <td>:</td>
+                            <td><input type="text" name="password" value="<?php echo $admin['A_password'] ?? ''; ?>"></td>
                         </tr>
                         <tr>
                             <td><b>Phone Number</b></td>

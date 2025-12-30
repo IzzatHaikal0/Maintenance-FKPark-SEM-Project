@@ -214,6 +214,7 @@
                 <a href="../../Module1/Admin/manageUser.php">Manage User</a>
                 <a href="../../Module1/Admin/profileUser.php">Profile</a>
                 <a href="../../Module1/Admin/addUser.php">Registration</a>
+                <a href="../../Module1/Admin/bulkUpload.php">Bulk Registration</a>
             </div>
             <a href="../../Module2/Admin/manage_parking_area.php">Manage Parking Area</a>
             <a href="../../Module2/Admin/manage_parking.php">Manage Parking Space</a>

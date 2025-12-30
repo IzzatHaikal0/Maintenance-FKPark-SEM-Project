@@ -219,7 +219,7 @@
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="/Mini-Project-Web-Eng/Module1/student/addVehicle.php">Registartion</a>
+                <a href="/Mini-Project-Web-Eng/Module1/student/addVehicle.php">Registration</a>
                 <a href="/Mini-Project-Web-Eng/Module1/student/infoVehicle.php">Information</a>
             </div>
             <button class="dropdown-btn">Booking

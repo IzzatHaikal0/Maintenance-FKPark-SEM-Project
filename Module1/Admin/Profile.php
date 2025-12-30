@@ -44,6 +44,11 @@ $admin = $result->fetch_assoc();
                         <td><?php echo $admin['A_email'] ?? 'N/A'; ?></td>
                     </tr>
                     <tr>
+                        <td><b>Password</b></td>
+                        <td>:</td>
+                        <td><?php echo $admin['A_password'] ?? 'N/A'; ?></td>
+                    </tr>
+                    <tr>
                         <td><b>Phone Number</b></td>
                         <td>:</td>
                         <td><?php echo $admin['A_phoneNum'] ?? 'N/A'; ?></td>

@@ -79,76 +79,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_insert_vehicle->close();
         }
     } else {
-        // Normal flow - check if vehicle exists
-        $sql = "SELECT V_vehicleID, V_plateNum FROM vehicle WHERE V_plateNum = ?";
-        $stmt = $link->prepare($sql);
-        $stmt->bind_param("s", $plate_number);
-        $stmt->execute();
-        $result = $stmt->get_result();
+       // Normal flow - check if vehicle exists
+        $sql_vehicle = "SELECT V_vehicleID FROM vehicle WHERE V_plateNum = ?";
+        $stmt_vehicle = $link->prepare($sql_vehicle);
+        $stmt_vehicle->bind_param("s", $plate_number);
+        $stmt_vehicle->execute();
+        $result_vehicle = $stmt_vehicle->get_result();
 
-        if ($result->num_rows > 0) {
-            // Vehicle exists - proceed normally
-            $row = $result->fetch_assoc();
-            $vehicle_id = $row['V_vehicleID'];
+        if ($result_vehicle->num_rows > 0) {
 
-            $sql = "SELECT * FROM trafficSummon WHERE V_vehicleID = ?";
-            $stmt = $link->prepare($sql);
-            $stmt->bind_param("i", $vehicle_id);
-            $stmt->execute();
-            $result_summon = $stmt->get_result();
+            // ✅ Vehicle exists
+            $row_vehicle = $result_vehicle->fetch_assoc();
+            $vehicle_id = (int)$row_vehicle['V_vehicleID'];
 
-            if ($result_summon->num_rows > 0) {
-                $row_summon = $result_summon->fetch_assoc();
-                $current_demerit_points = (int)$row_summon['TF_demeritPoint'];
-                $new_demerit_points = $current_demerit_points + $demerit_points;
+            $stmt_vehicle->close();
 
-                $sql_update = "UPDATE trafficSummon SET TF_date = ?, TF_status = ?, TF_violationType = ?, TF_demeritPoint = ? WHERE V_vehicleID = ?";
-                $stmt_update = $link->prepare($sql_update);
-                $stmt_update->bind_param("sssii", $date, $status, $violation_type, $new_demerit_points, $vehicle_id);
+            // ✅ ALWAYS insert a new summon
+            $sql_insert = "INSERT INTO trafficSummon 
+                (V_vehicleID, TF_date, TF_status, TF_violationType, TF_demeritPoint)
+                VALUES (?, ?, ?, ?, ?)";
 
-                if ($stmt_update->execute()) {
-                    $_SESSION['summon'] = [
-                        'plate_number' => $plate_number,
-                        'date' => $date,
-                        'status' => $status,
-                        'violation_type' => $violation_type,
-                        'demerit_points' => $new_demerit_points
-                    ];
-                    $stmt_update->close();
-                    $stmt->close();
-                    mysqli_close($link);
-                    header("Location: qrCode.php");
-                    exit();
-                } else {
-                    echo "<div class='alert alert-danger' role='alert'>Error updating traffic summon: " . $link->error . "</div>";
-                    $stmt_update->close();
-                }
+            $stmt_insert = $link->prepare($sql_insert);
+            $stmt_insert->bind_param(
+                "isssi",
+                $vehicle_id,
+                $date,
+                $status,
+                $violation_type,
+                $demerit_points
+            );
+
+            if ($stmt_insert->execute()) {
+
+                $_SESSION['summon'] = [
+                    'plate_number' => $plate_number,
+                    'date' => $date,
+                    'status' => $status,
+                    'violation_type' => $violation_type,
+                    'demerit_points' => $demerit_points
+                ];
+
+                $stmt_insert->close();
+                mysqli_close($link);
+                header("Location: qrCode.php");
+                exit();
+
             } else {
-                $sql_insert = "INSERT INTO trafficSummon (V_vehicleID, TF_date, TF_status, TF_violationType, TF_demeritPoint) VALUES (?, ?, ?, ?, ?)";
-                $stmt_insert = $link->prepare($sql_insert);
-                $stmt_insert->bind_param("isssi", $vehicle_id, $date, $status, $violation_type, $demerit_points);
-
-                if ($stmt_insert->execute()) {
-                    $_SESSION['summon'] = [
-                        'plate_number' => $plate_number,
-                        'date' => $date,
-                        'status' => $status,
-                        'violation_type' => $violation_type,
-                        'demerit_points' => $demerit_points
-                    ];
-                    $stmt_insert->close();
-                    $stmt->close();
-                    mysqli_close($link);
-                    header("Location: qrCode.php");
-                    exit();
-                } else {
-                    echo "<div class='alert alert-danger' role='alert'>Error adding traffic summon: " . $link->error . "</div>";
-                    $stmt_insert->close();
-                }
+                echo "<div class='alert alert-danger'>Error adding traffic summon: {$link->error}</div>";
+                $stmt_insert->close();
             }
-            $stmt->close();
+
         } else {
-            // Vehicle not found - show popup
+            // ❗ Vehicle NOT found → popup
             $show_unregistered_popup = true;
             $unregistered_data = [
                 'plate_number' => $plate_number,
@@ -157,9 +139,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'violation_type' => $violation_type,
                 'demerit_points' => $demerit_points
             ];
-            $stmt->close();
-            // Don't exit - let the page render with popup
         }
+
+
     }
 }
 
@@ -320,7 +302,7 @@ ob_end_flush();
             Enter the vehicle plate number and summon details below.
         </p>
         
-        <form action="Module4/applySummon.php" method="post" id="summonForm">
+        <form action="/Mini-Project-Web-Eng/Module4/applySummon.php" method="post" id="summonForm">
             <div class="form-group">
                 <label for="plate_number">Plate Number:</label>
                 <input type="text" id="plate_number" name="plate_number" required placeholder="Enter plate number (e.g., ABC1234)" value="<?php echo isset($_POST['plate_number']) ? htmlspecialchars($_POST['plate_number']) : ''; ?>">
@@ -382,7 +364,7 @@ ob_end_flush();
                 <p style="color: #856404; font-size: 14px; margin-bottom: 20px;">
                     Please provide the following vehicle information to proceed with the summon.
                 </p>
-                <form id="vehicleDetailsForm" action="Module4/applySummon.php" method="post">
+                <form id="vehicleDetailsForm" action="/Mini-Project-Web-Eng/Module4/applySummon.php" method="post">
                     <input type="hidden" name="plate_number" id="formPlateNumber" value="<?php echo isset($unregistered_data) ? htmlspecialchars($unregistered_data['plate_number']) : ''; ?>">
                     <input type="hidden" name="date" id="formDate" value="<?php echo isset($unregistered_data) ? htmlspecialchars($unregistered_data['date']) : ''; ?>">
                     <input type="hidden" name="status" id="formStatus" value="<?php echo isset($unregistered_data) ? htmlspecialchars($unregistered_data['status']) : ''; ?>">

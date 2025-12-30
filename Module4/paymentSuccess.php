@@ -143,7 +143,7 @@ if (isset($_GET['session_id']) && isset($_GET['summon_id'])) {
             <h2>Payment Successful!</h2>
             <p>Your summon payment has been processed successfully.</p>
             <p>The summon status has been updated to "Paid".</p>
-            <a href="Module4/MySummon.php" class="btn-back">Back to My Summon</a>
+            <a href="/Mini-Project-Web-Eng/Module4/MySummon.php" class="btn-back">Back to My Summon</a>
         <?php else: ?>
             <div class="error-icon">✗</div>
             <h2 style="color: #dc3545;">Payment Error</h2>

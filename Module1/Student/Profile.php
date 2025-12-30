@@ -219,6 +219,11 @@ $student = $result->fetch_assoc();
                         <td><?php echo $student['STU_name'] ?? 'N/A'; ?></td>
                     </tr>
                     <tr>
+                        <td><b>Password</b></td>
+                        <td>:</td>
+                        <td><?php echo $student['STU_password'] ?? 'N/A'; ?></td>
+                    </tr>
+                    <tr>
                         <td><b>Email</b></td>
                         <td>:</td>
                         <td><?php echo $student['STU_email'] ?? 'N/A'; ?></td>

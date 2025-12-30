@@ -14,18 +14,23 @@ if (!isset($_GET['summon_id']) || !isset($_GET['amount'])) {
 $summon_id = (int)$_GET['summon_id'];
 $amount = (float)$_GET['amount'];
 
-// Verify summon belongs to student
+// Verify student is logged in
 if (!isset($_SESSION['STU_studentID'])) {
     die("Please login to make payment.");
 }
 
 $student_id = $_SESSION['STU_studentID'];
 
-// Get summon details and verify ownership
-$sql = "SELECT t.TF_summonID, t.TF_status, t.TF_violationType, t.TF_demeritPoint, t.TF_date, v.V_plateNum, v.STU_studentID
+// Get summon details - allow payment for both registered and unregistered vehicles
+// If vehicle is unregistered (STU_studentID IS NULL), allow any student to pay
+// If vehicle is registered (STU_studentID is set), only owner can pay
+$sql = "SELECT t.TF_summonID, t.TF_status, t.TF_violationType, t.TF_demeritPoint, t.TF_date, 
+               v.V_plateNum, v.STU_studentID, v.V_status, v.V_vehicleID
         FROM trafficSummon t
         JOIN vehicle v ON t.V_vehicleID = v.V_vehicleID
-        WHERE t.TF_summonID = ? AND v.STU_studentID = ? AND t.TF_status = 'Unpaid'";
+        WHERE t.TF_summonID = ? 
+        AND t.TF_status = 'Unpaid'
+        AND (v.STU_studentID = ? OR v.STU_studentID IS NULL)";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $summon_id, $student_id);
@@ -38,6 +43,9 @@ if ($result->num_rows == 0) {
 
 $summon = $result->fetch_assoc();
 $stmt->close();
+
+// Check if this is an unregistered vehicle (from staff-created summon)
+$isUnregisteredVehicle = ($summon['V_status'] == 'Unregistered');
 
 // Stripe API Configuration - Get from environment variables or config
 $stripe_secret_key = getenv('STRIPE_SECRET_KEY') ?: "YOUR_STRIPE_SECRET_KEY_HERE";
@@ -203,30 +211,63 @@ $conn->close();
             display: block;
             margin-bottom: 8px;
         }
+        .unregistered-notice {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #17a2b8;
+            font-size: 14px;
+        }
+        .unregistered-notice strong {
+            display: block;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
     <?php include('../Layout/student_layout.php'); ?>
     <div class="payment-container">
         <h2>Pay Summon</h2>
+        
+        <?php if ($isUnregisteredVehicle): ?>
+        <div class="unregistered-notice">
+            <strong>ℹ️ Notice:</strong>
+            This summon is for an unregistered vehicle. After payment, you can proceed to register this vehicle.
+        </div>
+        <?php endif; ?>
+        
         <div class="payment-details">
             <p><strong>Plate Number:</strong> <span><?php echo htmlspecialchars($summon['V_plateNum']); ?></span></p>
             <p><strong>Date:</strong> <span><?php echo htmlspecialchars($summon['TF_date']); ?></span></p>
             <p><strong>Violation Type:</strong> <span><?php echo htmlspecialchars($summon['TF_violationType']); ?></span></p>
             <p><strong>Demerit Points:</strong> <span><?php echo htmlspecialchars($summon['TF_demeritPoint']); ?></span></p>
+            <?php if ($isUnregisteredVehicle): ?>
+            <p><strong>Vehicle Status:</strong> <span style="color: #dc3545; font-weight: 600;">Unregistered</span></p>
+            <?php endif; ?>
         </div>
         <div class="amount-section">
             <div class="amount-label">Total Amount</div>
             <div class="amount">RM <?php echo number_format($amount, 2); ?></div>
         </div>
         
-        <form action="Module4/createCheckoutSession.php" method="POST">
+        <form action="/Mini-Project-Web-Eng/Module4/createCheckoutSession.php" method="POST">
             <input type="hidden" name="summon_id" value="<?php echo $summon_id; ?>">
             <input type="hidden" name="amount" value="<?php echo $amount; ?>">
+            <input type="hidden" name="vehicle_id" value="<?php echo $summon['V_vehicleID']; ?>">
+            <input type="hidden" name="is_unregistered" value="<?php echo $isUnregisteredVehicle ? '1' : '0'; ?>">
             <button type="submit" class="btn-pay" id="checkout-button">Pay with Stripe</button>
         </form>
         
-        <a href="Module4/MySummon.php" class="btn-cancel">Cancel</a>
+        <a href="<?php echo $isUnregisteredVehicle ? '../Module1/Student/addVehicle.php' : '../Module1/Student/mySummon.php'; ?>" class="btn-cancel">Cancel</a>
+        
+        <?php if ($isUnregisteredVehicle): ?>
+        <div class="note">
+            <strong>💡 What happens after payment?</strong>
+            Once this summon is paid, you will be able to complete the vehicle registration process for plate number <strong><?php echo htmlspecialchars($summon['V_plateNum']); ?></strong>.
+        </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>
