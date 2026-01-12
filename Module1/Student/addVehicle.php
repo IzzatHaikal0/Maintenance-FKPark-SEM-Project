@@ -400,7 +400,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
     if (isset($_SESSION['STU_studentID'])) {
         $studentID = $_SESSION['STU_studentID'];
 
-        // First, check if this plate number already exists with "Unregistered" status
+        // First, check if this plate number already exists
         $checkQuery = "SELECT V_vehicleID FROM vehicle WHERE V_plateNum = ? AND V_status = 'Unregistered'";
         $checkStmt = $link->prepare($checkQuery);
         $checkStmt->bind_param("s", $plateNum);
@@ -408,7 +408,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
         $checkResult = $checkStmt->get_result();
 
         if ($checkResult->num_rows > 0) {
-            // Vehicle exists with unregistered status - check for unpaid summons
+            // Vehicle exists and for unpaid summons
             $vehicleData = $checkResult->fetch_assoc();
             $vehicleID = $vehicleData['V_vehicleID'];
             

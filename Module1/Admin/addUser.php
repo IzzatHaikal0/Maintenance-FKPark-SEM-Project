@@ -8,7 +8,7 @@ require('../../db_config.php');
 // Include database connection file
 mysqli_select_db($link, "web_eng");
 
-// Check if form is submitted and the add_user button is clicked
+// form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
     // Get form data
     $username = $_POST['studentID'];
@@ -20,17 +20,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
     $studentEmail = $_POST['studentEmail'];
 
     // Default password value
-    $defaultPassword = "FK123"; // You can change this default value
+    $defaultPassword = "FK123"; 
 
-    // Prepare and execute the insert query for the student table
+    
     $queryStudent = "INSERT INTO student (STU_username, STU_name, STU_type, STU_phoneNum, STU_yearStudy, STU_address, STU_email, STU_password)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-$stmtStudent = $link->prepare($queryStudent);
-$stmtStudent->bind_param("sssissss", $username, $studentName, $studentType, $studentPhoneNum, $studentYear, $studentAddress, $studentEmail, $defaultPassword);
+    $stmtStudent = $link->prepare($queryStudent);
+    $stmtStudent->bind_param("sssissss", $username, $studentName, $studentType, $studentPhoneNum, $studentYear, $studentAddress, $studentEmail, $defaultPassword);
 
 
 
-    // Execute both queries in a transaction
+    
     mysqli_autocommit($link, false);
     $success = true;
 
@@ -46,11 +46,11 @@ $stmtStudent->bind_param("sssissss", $username, $studentName, $studentType, $stu
         mysqli_rollback($link);
     }
 
-    // Close the statement
+   
     $stmtStudent->close();
 }
 
-// Close the database connection
+
 $link->close();
 ?>
 

@@ -32,26 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bulk_upload'])) {
             // Default password
             $defaultPassword = "FK123";
             
-            // Start transaction
             mysqli_autocommit($link, false);
             
             $rowNumber = 1;
             while (($row = fgetcsv($file)) !== false) {
                 $rowNumber++;
                 
-                // Skip empty rows
                 if (empty(array_filter($row))) {
                     continue;
                 }
                 
-                // Check if row has enough columns
                 if (count($row) < 7) {
                     $errors[] = "Row $rowNumber: Insufficient data columns";
                     $errorCount++;
                     continue;
                 }
                 
-                // Extract data
                 $username = trim($row[0]);
                 $studentName = trim($row[1]);
                 $studentPhoneNum = trim($row[2]);
