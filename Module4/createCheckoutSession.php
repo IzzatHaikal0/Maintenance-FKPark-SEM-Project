@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['summon_id']) && isset(
     }
     
     // Stripe Secret Key - Get from environment variable or config
-    $stripe_secret_key = "sk_test_51Rp89u18KU1bRplKbeRtVQ70axZCnZWbCHfOpsEPtqyNNHx5IM6LgYuoYsHdCpzTocHBhOJqHnTs1XXqOY38HtAn00ZMJbxskL";
+    $stripe_secret_key = "#";
 
     
     // Amount in cents (Stripe uses cents)
