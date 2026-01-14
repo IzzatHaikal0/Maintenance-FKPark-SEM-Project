@@ -1,6 +1,22 @@
 <?php
 include('../../Layout/admin_layout.php');
+
 require('../../db_config.php');
+
+$now = date('Y-m-d H:i:s');
+
+$link->query("
+    UPDATE parkingSpace 
+    SET P_status = 'Available',
+        P_reason = 'None',
+        P_closeStartTime = NULL,
+        P_closeEndTime = NULL
+    WHERE P_status = 'Temporary Closed'
+      AND P_closeEndTime IS NOT NULL
+      AND P_closeEndTime <= '$now'
+");
+
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
 
 // Fetch parking spaces status
@@ -64,36 +80,64 @@ while ($parking_row = $parking_result->fetch_assoc()) {
         }
     </style>
     <script>
-        function updateParkingStatus(location, status) {
-            let reason = 'None';
-            if (status === 'Temporary Closed') {
-                reason = prompt("Please enter the reason to close the area:");
-                if (!reason) {
-                    alert("Reason is required to close the area.");
-                    return;
-                }
-            }
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "update_parking_status.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        document.getElementById('status-' + location).innerHTML = status === 'Occupied' ? 'Temporary Closed' : status;
-                        document.getElementById('reason-' + location).innerHTML = reason;
-                    } else {
-                        alert("Failed to update status: " + response.message);
-                    }
-                }
-            };
-            xhr.send("location=" + location + "&status=" + status + "&reason=" + encodeURIComponent(reason));
-        }
+        function updateParkingStatus(location, status, reason = 'None', start = '', end = '') {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "update_parking_status.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.send(
+        "location=" + location +
+        "&status=" + status +
+        "&reason=" + encodeURIComponent(reason) +
+        "&start_time=" + start +
+        "&end_time=" + end
+    );
+    closeModal();
+}
+
+        function openCloseModal(location) {
+    document.getElementById('modalLocation').value = location;
+    document.getElementById('closeModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('closeModal').style.display = 'none';
+}
+
+function submitClose() {
+    const location = document.getElementById('modalLocation').value;
+    const reason = document.getElementById('modalReason').value;
+    const start = document.getElementById('modalStart').value;
+    const end = document.getElementById('modalEnd').value;
+
+    if (!reason || !start || !end) {
+        alert("Please fill all fields");
+        return;
+    }
+    updateParkingStatus(location, 'Temporary Closed', reason, start, end);
+}
+
+setInterval(() => {
+    fetch('update_parking_status.php', {
+        method: 'POST'
+    });
+}, 30000); // setiap 30 saat
     </script>
 </head>
 <body>
 <div class="content-container">
     <h2>Manage Parking Area</h2>
+
+
+    <div style="text-align:right; margin-bottom:15px;">
+    <a href="parking_history.php">
+        <button>View Parking History</button>
+    </a>
+    </div>
+
+
+
+
     <table>
         <thead>
             <tr>
@@ -114,13 +158,35 @@ while ($parking_row = $parking_result->fetch_assoc()) {
                 echo "<td id='reason-{$location}'>{$reason}</td>";
                 echo "<td>
                         <button onclick=\"updateParkingStatus('{$location}', 'Available')\">Open</button>
-                        <button onclick=\"updateParkingStatus('{$location}', 'Temporary Closed')\">Close</button>
+                        <button onclick=\"openCloseModal('{$location}')\">Close</button>
                       </td>";
                 echo "</tr>";
             }
             ?>
         </tbody>
     </table>
+
+<div id="closeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+  <div style="background:#fff; padding:20px; width:400px; margin:10% auto; border-radius:10px;">
+    <h3>Close Parking Area</h3>
+
+    <input type="hidden" id="modalLocation">
+
+    <label>Reason</label>
+    <input type="text" id="modalReason" style="width:100%; margin-bottom:10px;">
+
+    <label>Start Time</label>
+    <input type="datetime-local" id="modalStart" style="width:100%; margin-bottom:10px;">
+
+    <label>End Time</label>
+    <input type="datetime-local" id="modalEnd" style="width:100%; margin-bottom:10px;">
+
+    <button onclick="submitClose()">Confirm</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+
 </div>
 </body>
 </html>
