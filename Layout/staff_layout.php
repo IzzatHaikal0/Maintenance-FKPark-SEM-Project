@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="http://localhost/Maintenance-FKPark-SEM-Project-main/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .content-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #800000;
+            color: white;
+            padding: 30px 50px;
+        }
+        .header-left h1 {
+            margin: 0;
+        }
+        .header-right {
+            position: relative;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropbtn {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .dropbtn img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            font-weight: bold;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .container {
+            margin-left: 200px;
+            flex: 1;
+            flex-direction: row;
+        }
+        .sidenav {
+            height: calc(200vh - 40px); /* Subtract header height */
+            width: 250px;
+            background-color: #D9DDDC;
+            padding-top: 20px;
+            overflow-x: hidden;
+            color: #000000;  
+            left: 0;
+            overflow-x: hidden;
+            position: absolute;
+        }
+
+        .sidenav a, .dropdown-btn {
+            padding: 6px 8px 30px 16px;
+            text-decoration:none ;
+            font-size: 20px;
+            color: #000000;
+            display: block;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+        }
+        .sidenav a:hover, .dropdown-btn:hover {
+            color: #f1f1f1;
+        }
+
+        .content-container { 
+            max-width: 800px; 
+            margin: 50px auto; 
+            margin-left: 280px; 
+            padding: 20px; 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); 
+            text-align: center; 
+        }
+        .content-container h2 { 
+            margin-bottom: 20px; 
+        }
+        form { 
+            background: #fff; 
+            padding: 20px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); 
+            margin-top: 20px; 
+        }
+        form label { 
+            display: block; 
+            margin-bottom: 10px; 
+            font-weight: bold; 
+        }
+        .form-group { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        }
+        .form-group label { 
+            flex: 1; 
+            text-align: left; 
+            margin-right: 10px; 
+        }
+        .form-group input[type="text"], 
+        .form-group input[type="date"], 
+        .form-group select { 
+            flex: 2; 
+            width: calc(100% - 22px); 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 16px; 
+        }
+        button { 
+            display: inline-block; 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            color: #fff; 
+            background-color: #800000; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+        button:hover { 
+            background-color: #575757; 
+        }
+        .main {
+            margin-left: 200px;
+            font-size: 20px;
+            padding: 20px;
+            flex: 1;
+        }
+        .active {
+            background-color: #E0115F;
+            color: white;
+        }
+        .dropdown-container {
+            display: none;
+            background-color: #FF7F7F;
+            padding-left: 8px;
+        }
+        .fa-caret-down {
+            float: right;
+            padding-right: 8px;
+        }
+        @media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 16px;}
+        }
+        .avatar{
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+        }
+
+.display-date {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>STAFF</h1>
+        </div>
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <img src="image/loginIcon.png" alt="login">
+                </button>
+                <div class="dropdown-content">
+                    <a href="Module1/staff/Profile.php">View Profile</a>
+                    <a href="Logout.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidenav">
+            <a href="Module4/summonReport.php">Dashboard</a>
+            <button class="dropdown-btn">Vehicle 
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="Module1/Staff/approve.php">Approve</a>
+                <a href="Module1/Staff/infoVehicle.php">Information</a>
+            </div>
+            <button class="dropdown-btn">Booking
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="Module3/B_homepage.php">View Parking Spaces</a>
+                <a href="Module3/view_booking.php">View Booking List</a>
+            </div> 
+            <button class="dropdown-btn">Summon 
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="Module4/applySummon.php">Apply Summon</a>
+                <a href="Module4/trafficSummon.php">Manage Summon</a>
+            </div> 
+          </div>
+        <script>
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+    </script>
+    </body>
+</html>
